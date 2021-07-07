@@ -1,4 +1,8 @@
+require("dotenv").config();
+
 const express = require("express");
+
+const mongoose = require("mongoose");
 
 //Importing Database
 const database = require("./database");
@@ -10,6 +14,15 @@ booky.use(express.json());
 
 //where data- so we need database - created database.js
 
+
+//establish database connection
+mongoose.connect(process.env.MONGO_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true
+    })
+    .then(() => console.log("connection established!!!!!!!"));
 
 //API - to get all books
 /* 
@@ -213,7 +226,7 @@ booky.post("/book/add", (req, res) => {
 
 //API - to Add new author
 /* 
-Route               /book/add
+Route               /author/add
 Description         add new author
 Access              public
 Parameter           none
@@ -228,7 +241,7 @@ booky.post("/author/add", (req, res) => {
 
 //API - to Add new publication
 /* 
-Route               /book/add
+Route               /publication/add
 Description         add new publication
 Access              public
 Parameter           none
@@ -268,7 +281,7 @@ booky.put("/book/update/title/:isbn", (req, res) =>{
 Route               /book/update/author
 Description        update / add new author for a book
 Access              public
-Parameter           isbn
+Parameter           isbn/authorId
 Methods             put
 */
 
@@ -489,3 +502,7 @@ booky.delete("/publication/delete/book/:isbn/:pubId", (req, res) =>{
 });
 
 booky.listen(3000, () => console.log("Hey my server is running"));
+
+//agent should 
+//Talk to mongoDB in way mongodb understands &&
+//talk to us in a way we understand
