@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-//Crreating book Schema
+//Creating book Schema
 const BookSchema = mongoose.Schema({
     ISBN: String,
     title: String,
