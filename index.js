@@ -289,15 +289,27 @@ Parameter           isbn
 Methods             put
 */
 
-booky.put("/book/update/title/:isbn", (req, res) =>{
+booky.put("/book/update/title/:isbn", async (req, res) =>{
+    
+    const updatedBook = await BookModel.findOneAndUpdate(
+        {
+            ISBN: req.params.isbn,
+        },
+        {
+            title: req.body.bookTitle,
+        },
+        {
+            new: true,
+        }
+        );
     // for each - directly update
-    database.books.forEach((book) => {
+    /*database.books.forEach((book) => {
         if(book.ISBN === req.params.isbn){
             book.title = req.body.newBookTitle;
             return;
         }
-    });
-    return res.json({ books: database.books });
+    });*/
+    return res.json({ books: updatedBook });
 
     //map - not directly
 });
