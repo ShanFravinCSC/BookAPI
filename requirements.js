@@ -18,56 +18,56 @@ what are all the APIs that we need....
 1.Books
 //GET
 we need an API
-to get all books </
-to get specific books </
-to get list of books based on category </
-to get list of books based on languages </
+to get all books </ $/
+to get specific books </ $/
+to get list of books based on category </  $/
+to get list of books based on languages </ $/
 
 //POST
-//Add new book </
+//Add new book </ $/
 
 //PUT
-//update book title </
-//update / add new author for a book </
+//update book title </ $/
+//update / add new author for a book </ $/
 
 //DELETE
-//delete a book </
-//delete an author from a book </
+//delete a book </ $/
+//delete an author from a book </ $/ 
 
 2.Authors
 //GET
 we need an API
-to get all authors </
-to get specific authors </
-to get list of authors based on books </
+to get all authors </  $/
+to get specific authors </ $/
+to get list of authors based on books </ $/
 
 //POST
-//Add new author </
+//Add new author </ $/
 
 //PUT
-//update author name using it's id </
+//update author name using it's id </ $/
 
 //DELETE
-//delete an author </
+//delete an author </ $/
 
 3.Publications
 //GET
 we need an API </
-to get all publications </
-to get specific publication </
-to get list of publication based on book </
+to get all publications </ $/
+to get specific publication </ $/
+to get list of publication based on book </ $/
 */
 
 //POST
-//Add new publication </
+//Add new publication </ $/
 
 //PUT
-//update book publication name using it's id </
-//update / add new book to a publication - removing old one and adding new one </
+//update book publication name using it's id </ $/
+//update / add new book to a publication - removing old one and adding new one </ $/
 
 //DELETE
-//delete a publication </
-//delete a book from publication </
+//delete a publication </ $/
+//delete a book from publication </ $/
 
 
 //How the server serves the request
