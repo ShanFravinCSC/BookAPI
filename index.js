@@ -323,22 +323,51 @@ Parameter           isbn/authorId
 Methods             put
 */
 
-booky.put("/book/update/author/:isbn/:authorId", (req, res) => {
+booky.put("/book/update/author/:isbn", async (req, res) => {
+    
     //update book database
-
-    database.books.forEach((book) =>{
+    const updatedBook = await BookModel.findOneAndUpdate(
+        {
+            ISBN: req.params.isbn,
+        },
+        {
+            $push: {
+                authors: req.body.newAuthor,
+            },
+        },
+        {
+            new: true,
+        }
+    );
+    //update author database
+    const updatedAuthor = await AuthorModel.findOneAndUpdate(
+        {
+            id: req.body.newAuthor,
+        },
+        {
+            $push: {
+                books: req.params.isbn,
+            },
+        },
+        {
+            new: true,
+        }
+    );
+    //update book database
+    /*database.books.forEach((book) =>{
         if(book.ISBN === req.params.isbn){
             return book.author.push(parseInt(req.params.authorId));
         }
-    });
+    });*/
     //update author database
 
-    database.author.forEach((author) =>{
+    /*database.author.forEach((author) =>{
         if(author.id === parseInt(req.params.authorId)){
             return author.books.push(req.params.isbn);
         }
-    });
-    return res.json({ books:database.books, author: database.author });
+    });*/
+
+    return res.json({ books:updatedBook, authors: updatedAuthor });
 });
 
 //API - to update author name using it's id
@@ -419,16 +448,22 @@ Parameter           isbn
 Methods             DELETE  
 */
 
-booky.delete("/book/delete/:isbn", (req, res) =>{
+booky.delete("/book/delete/:isbn", async (req, res) =>{
+    
+    const updatedBookDatabase = await BookModel.findOneAndDelete(
+        {
+            ISBN: req.params.isbn,
+        }
+    );
     //deleting using filter
-    const updatedBookDatabase = database.books.filter(
+    /*const updatedBookDatabase = database.books.filter(
         (book) => book.ISBN !== req.params.isbn
     );
     
     //new array
 
-    database.books = updatedBookDatabase;
-    return res.json({ books: database.books });
+    database.books = updatedBookDatabase;*/
+    return res.json({ books: updatedBookDatabase });
 });
 
 //API - To delete an author from a book
@@ -439,10 +474,37 @@ Access              public
 Parameter           isbn, authorId (parameter and parameter)
 Methods             DELETE  
 */
-booky.delete("/book/delete/author/:isbn/:authorId", (req, res) =>{
+booky.delete("/book/delete/author/:isbn/:authorId", async (req, res) =>{
     //update the book database
 
-    database.books.forEach((book) =>{
+    const updatedBook = await BookModel.findOneAndUpdate(
+        {
+            ISBN: req.params.isbn,
+        },
+        {
+            $pull:{
+                authors: parseInt(req.params.authorId),
+            },
+        },
+        {
+            new: true,
+        }
+    );
+    //update author database
+    const updatedAuthor = await AuthorModel.findOneAndUpdate(
+        {
+            id: req.params.authorId,
+        },
+        {
+            $pull: {
+                books: req.params.isbn,
+            },
+        },
+        {
+            new: true,
+        }
+    );
+    /*database.books.forEach((book) =>{
         if(book.ISBN === req.params.isbn){
             const newAuthorList = book.author.filter(
             (author) => author !== parseInt(req.params.authorId)
@@ -450,10 +512,10 @@ booky.delete("/book/delete/author/:isbn/:authorId", (req, res) =>{
             book.author = newAuthorList;
             return;
         }
-    });
+    });*/
     //update author database
 
-    database.author.forEach((author) =>{
+    /*database.author.forEach((author) =>{
         if(author.id === parseInt(req.params.authorId)){
             const newBookList = author.books.filter(
                 (book) => book !== req.params.isbn
@@ -461,10 +523,11 @@ booky.delete("/book/delete/author/:isbn/:authorId", (req, res) =>{
             author.books = newBookList;
             return;
         }
-    });
+    });*/
+
     return res.json({
-        book: database.books,
-        author: database.author,
+        books: updatedBook,
+        authors: updatedAuthor,
         message: "author was deleted"});
 });
 
