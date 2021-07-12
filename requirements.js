@@ -71,3 +71,5 @@ to get list of publication based on book </ $/
 
 
 //How the server serves the request
+
+//Add mongoose validation to all the models [task]
