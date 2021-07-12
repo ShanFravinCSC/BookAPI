@@ -93,11 +93,15 @@ Parameter           none
 Methods             post
 */
 Router.post("/add", async (req, res) => {
+try{
     const { newBook } = req.body;
 
-    const addNewBook = BookModel.create(newBook);
+    const addNewBook = await BookModel.create(newBook);
     //database.books.push(newBook);
     return res.json({ books: addNewBook });
+}catch(error){
+    return res.json({ error: error.message });
+}
 });
 
 //API - to update book title
